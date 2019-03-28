@@ -7,7 +7,31 @@ class Cell extends Component {
       editing: false,
       value: props.value
     };
+    this.handleClick = this.handleClick.bind(this);
+    this.onBlur = this.onBlur.bind(this);
   }
+
+  componentDidMount() {
+
+  }
+
+  handleClick(e) {
+    e.target.classList.add('selected');
+    this.setState({
+      editing: true
+    });
+  }
+
+  onBlur(e) {
+    const value = this.calculateValue(e.target.value);
+
+    this.setState({
+      value: value,
+      editing: false
+    });
+    e.target.classList.remove('selected');
+  }
+
   render() {
     // first row
     if (this.props.y === 0) {
@@ -23,9 +47,11 @@ class Cell extends Component {
       <input
         className="cell"
         type="text"
+        onBlur={this.onBlur}
       />
       : <span
         className="cell"
+        onClick={this.handleClick}
         >
         {this.state.value}
       </span>;

@@ -24,3 +24,7 @@
   background-color: #a6a6a6;
   border: 1px solid black; 
 }
+
+.selected {
+  border: 1px dashed blue;
+}
