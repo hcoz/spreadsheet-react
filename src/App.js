@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import Table from './components/Table';
+import store from './redux/store';
 import './App.css';
 
 class App extends Component {

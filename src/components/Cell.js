@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import store from '../redux/store';
 
 class Cell extends Component {
   constructor(props) {
@@ -9,10 +10,11 @@ class Cell extends Component {
     };
     this.handleClick = this.handleClick.bind(this);
     this.onBlur = this.onBlur.bind(this);
+    this.calculateValue = this.calculateValue.bind(this);
   }
 
-  componentDidMount() {
-
+  calculateValue(expression) {
+    return expression.toString();
   }
 
   handleClick(e) {
@@ -28,6 +30,12 @@ class Cell extends Component {
     this.setState({
       value: value,
       editing: false
+    });
+    store.dispatch({
+      type: 'ADD_VALUE',
+      x: this.props.x,
+      y: this.props.y,
+      value: value
     });
     e.target.classList.remove('selected');
   }
@@ -48,6 +56,8 @@ class Cell extends Component {
         className="cell"
         type="text"
         onBlur={this.onBlur}
+        value={this.state.value}
+        onChange={(e) => this.setState({ value: e.target.value })}
       />
       : <span
         className="cell"

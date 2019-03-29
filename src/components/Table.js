@@ -1,7 +1,23 @@
 import React, { Component } from 'react';
 import Row from './Row';
+import store from '../redux/store';
 
 class Table extends Component {
+  componentDidMount() {
+    const matrix = JSON.parse(localStorage.getItem('matrix-data'));
+    if (matrix) {
+      store.dispatch({
+        type: 'INIT_TABLE',
+        data: matrix
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    const matrix = JSON.stringify(store.getState().data);
+    localStorage.setItem('matrix-data', matrix);
+  }
+
   render() {
     const {x, y} = this.props;
     const rows = [];
