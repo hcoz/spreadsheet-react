@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Row from './Row';
 import store from '../redux/store';
 
@@ -31,5 +32,10 @@ class Table extends Component {
     return <div>{rows}</div>;
   }
 }
+
+Table.propTypes = {
+  x: PropTypes.number.isRequired,
+  y: PropTypes.number.isRequired
+};
 
 export default Table;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Cell from './Cell';
 
 class Row extends Component {
@@ -14,5 +15,10 @@ class Row extends Component {
     return <div>{cells}</div>;
   }
 }
+
+Row.propTypes = {
+  x: PropTypes.number.isRequired,
+  y: PropTypes.number.isRequired
+};
 
 export default Row;

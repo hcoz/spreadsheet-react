@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import store from '../redux/store';
 
 class Cell extends Component {
@@ -6,7 +7,7 @@ class Cell extends Component {
     super(props);
     this.state = {
       editing: false,
-      value: props.value
+      value: ''
     };
     this.handleClick = this.handleClick.bind(this);
     this.onBlur = this.onBlur.bind(this);
@@ -69,5 +70,10 @@ class Cell extends Component {
     return cell;
   }
 }
+
+Cell.propTypes = {
+  x: PropTypes.number.isRequired,
+  y: PropTypes.number.isRequired
+};
 
 export default Cell;
