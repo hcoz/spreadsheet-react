@@ -10,11 +10,15 @@ class Cell extends Component {
       value: ''
     };
     this.handleClick = this.handleClick.bind(this);
-    this.onBlur = this.onBlur.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleData = this.handleData.bind(this);
     this.calculateValue = this.calculateValue.bind(this);
   }
 
   calculateValue(expression) {
+    if (!expression) {
+      return false;
+    }
     return expression.toString();
   }
 
@@ -25,20 +29,26 @@ class Cell extends Component {
     });
   }
 
-  onBlur(e) {
-    const value = this.calculateValue(e.target.value);
+  handleKeyDown(e) {
+    if (e.key === 'Enter') {
+      this.handleData(e);
+    }
+  }
 
-    this.setState({
-      value: value,
-      editing: false
-    });
-    store.dispatch({
-      type: 'ADD_VALUE',
-      x: this.props.x,
-      y: this.props.y,
-      value: value
-    });
-    e.target.classList.remove('selected');
+  handleData(e) {
+    const value = this.calculateValue(this.state.value);
+    if (value) {
+      this.setState({
+        editing: false
+      });
+      store.dispatch({
+        type: 'UPDATE_TABLE',
+        x: this.props.x - 1,
+        y: this.props.y - 1,
+        value: value
+      });
+      e.target.classList.remove('selected');
+    }
   }
 
   render() {
@@ -56,7 +66,8 @@ class Cell extends Component {
       <input
         className="cell"
         type="text"
-        onBlur={this.onBlur}
+        onBlur={this.handleData}
+        onKeyDown={this.handleKeyDown}
         value={this.state.value}
         onChange={(e) => this.setState({ value: e.target.value })}
       />

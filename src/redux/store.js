@@ -1,7 +1,7 @@
 import { createStore } from 'redux';
 
 const initialState = {
-  id: null,
+  id: new Date().getTime(),
   data: [
     [null, null, null],
     [null, null, null],
@@ -10,23 +10,13 @@ const initialState = {
 };
 
 const matrix = (state = initialState, action) => {
-  let newState = {
-    id: state.id || new Date().getTime(),
-    data: state.data
-  };
-  const i = action.x - 1;
-  const j = action.y - 1;
-  
   switch (action.type) {
     case 'INIT_TABLE':
-      newState.data = action.data;
-      return newState;
-    case 'ADD_VALUE':
-      newState.data[i][j] = action.value;
-      return newState;
-    case 'DELETE_VALUE':
-      newState.data[i][j] = null;
-      return newState;
+      return Object.assign({}, state, { data: action.data });
+    case 'UPDATE_TABLE':
+      let newData = state.data;
+      newData[action.x][action.y] = action.value;
+      return Object.assign({}, state, { data: newData });
     default:
       return state;
   }
