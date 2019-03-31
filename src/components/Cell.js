@@ -5,9 +5,10 @@ import store from '../redux/store';
 class Cell extends Component {
   constructor(props) {
     super(props);
+    console.log(`key: ${this.props.id}, val: ${JSON.stringify(store.getState())}`);
     this.state = {
       editing: false,
-      value: ''
+      value: store.getState().data[this.props.id] || ''
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -18,6 +19,10 @@ class Cell extends Component {
   calculateValue(expression) {
     if (!expression) {
       return false;
+    }
+    // if starts with '=', calcaulate the math expression
+    if (expression[0] === '=') {
+      return eval(expression.slice(1)).toString();
     }
     return expression.toString();
   }
@@ -38,16 +43,19 @@ class Cell extends Component {
   handleData(e) {
     const value = this.calculateValue(this.state.value);
     if (value) {
-      this.setState({
-        editing: false
-      });
       store.dispatch({
         type: 'UPDATE_TABLE',
-        x: this.props.x - 1,
-        y: this.props.y - 1,
+        key: this.props.id,
+        value: value
+      });
+      // update local state
+      this.setState({
+        editing: false,
         value: value
       });
       e.target.classList.remove('selected');
+      // update local storage
+      localStorage.setItem('matrix-data', JSON.stringify(store.getState()));
     }
   }
 

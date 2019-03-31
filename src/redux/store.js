@@ -1,21 +1,17 @@
 import { createStore } from 'redux';
 
+const matrixData = JSON.parse(localStorage.getItem('matrix-data'));
 const initialState = {
-  id: new Date().getTime(),
-  data: [
-    [null, null, null],
-    [null, null, null],
-    [null, null, null]
-  ]
+  id: matrixData ? matrixData.id : new Date().getTime(),
+  data: matrixData ? matrixData.data : {}
 };
 
 const matrix = (state = initialState, action) => {
   switch (action.type) {
-    case 'INIT_TABLE':
-      return Object.assign({}, state, { data: action.data });
     case 'UPDATE_TABLE':
       let newData = state.data;
-      newData[action.x][action.y] = action.value;
+      const { key, value } = action;
+      newData[key] = value;
       return Object.assign({}, state, { data: newData });
     default:
       return state;

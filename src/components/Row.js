@@ -7,8 +7,9 @@ class Row extends Component {
     const cells = [];
 
     for (let i = 0; i < this.props.x; i++) {
+      let id = `${i}-${this.props.y}`;
       cells.push(
-        <Cell key={`${i}-${this.props.y}`} x={i} y={this.props.y} />
+        <Cell key={id} id={id} x={i} y={this.props.y} />
       );
     }
 
