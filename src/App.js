@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import Table from './components/Table';
+import Panel from './components/Panel';
 import store from './redux/store';
 import './App.css';
 
@@ -9,7 +9,7 @@ class App extends Component {
     return (
       <div className="main">
         <Provider store={store}>
-          <Table x={4} y={4} />
+          <Panel />
         </Provider>
       </div>
     );

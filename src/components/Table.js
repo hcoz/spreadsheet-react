@@ -13,7 +13,7 @@ class Table extends Component {
       );
     }
 
-    return <div>{rows}</div>;
+    return <div className="table">{rows}</div>;
   }
 }
 

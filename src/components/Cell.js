@@ -22,6 +22,7 @@ class Cell extends Component {
     }
     // if starts with '=', calcaulate the math expression
     if (expression[0] === '=') {
+      // eslint-disable-next-line
       return eval(expression.slice(1)).toString();
     }
     return expression.toString();

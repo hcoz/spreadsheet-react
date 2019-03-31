@@ -28,3 +28,20 @@
 .selected {
   border: 1px dashed blue;
 }
+
+.table-creator {
+  margin: 20px;
+}
+
+.table-creator > input,
+.table-creator > button {
+  margin: 5px;
+}
+
+.table {
+  margin: 20px;
+}
+
+.btn {
+  background-color: lightgreen;
+}
