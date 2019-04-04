@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Table from './Table';
 import TableCreator from './TableCreator';
-import store from '../redux/store';
 
 class Panel extends Component {
   render() {

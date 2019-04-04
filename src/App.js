@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import Panel from './components/Panel';
-import store from './redux/store';
+import { BrowserRouter, Route } from 'react-router-dom';
+import configureStore from './redux/configureStore';
+import TablePanel from './components/TablePanel';
 import './App.css';
 
+const store = configureStore();
 class App extends Component {
   render() {
     return (
-      <div className="main">
-        <Provider store={store}>
-          <Panel />
-        </Provider>
-      </div>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Route path="/" component={TablePanel} />
+        </BrowserRouter>
+      </Provider>
     );
   }
 }
