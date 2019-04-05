@@ -8,9 +8,9 @@ class Cell extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      editing: false,
-      value: this.props.table.data[this.props.id] || ''
+      editing: false
     };
+    this.input = React.createRef();
     this.handleClick = this.handleClick.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleData = this.handleData.bind(this);
@@ -43,13 +43,12 @@ class Cell extends Component {
   }
 
   handleData(e) {
-    const value = this.calculateValue(this.state.value);
+    const value = this.calculateValue(this.input.current.value);
     if (value) {
       this.props.updateTable(this.props.match.params.id, this.props.id, value);
       // update local state
       this.setState({
-        editing: false,
-        value: value
+        editing: false
       });
       e.target.classList.remove('selected');
     }
@@ -72,14 +71,13 @@ class Cell extends Component {
         type="text"
         onBlur={this.handleData}
         onKeyDown={this.handleKeyDown}
-        value={this.state.value}
-        onChange={(e) => this.setState({ value: e.target.value })}
+        ref={this.input}
       />
       : <span
         className="cell"
         onClick={this.handleClick}
         >
-        {this.state.value}
+        {this.props.table.data[this.props.id]}
       </span>;
 
     return cell;

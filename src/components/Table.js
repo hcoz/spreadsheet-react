@@ -9,13 +9,17 @@ class Table extends Component {
     const { width, height } = this.props.table;
     const rows = [];
 
-    for (let i = 0; i < width; i++) {
+    for (let i = 0; i <= width; i++) {
       rows.push(
         <Row key={i} x={height} y={i} />
       );
     }
 
-    return <div className="table">{rows}</div>;
+    return (
+      <div id={this.props.match.params.id} className="table">
+        {rows}
+      </div>
+    );
   }
 }
 

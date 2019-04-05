@@ -13,7 +13,7 @@ class App extends Component {
       <Provider store={store}>
         <BrowserRouter>
           <Route path="/" component={TablePanel} />
-          <Route path="/table/:id" component={Table} />
+          <Route exact path="/table/:id" component={Table} />
         </BrowserRouter>
       </Provider>
     );
