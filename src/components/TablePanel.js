@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom'
+import { getTableList } from '../redux/reducers';
 
 class TablePanel extends Component {
   constructor(props) {
@@ -13,15 +15,7 @@ class TablePanel extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.dispatch({
-      type: 'ADD_TABLE',
-      table: {
-        id: new Date().getTime(),
-        width: this.state.width,
-        height: this.state.height,
-        data: {}
-      }
-    });
+    this.props.addTable(this.state);
     this.setState({
       width: '',
       height: ''
@@ -48,15 +42,35 @@ class TablePanel extends Component {
         </form>
       
         <ul id="table-list">
-          <li>table1</li>
+         {this.props.tableList.map(
+           (table) => (
+              <li key={table}>
+                <Link key={table} to={`/table/${table}`}>{table}</Link>
+              </li>
+            )
+         )}
         </ul>
       </div>
     )
   }
 }
 
-// const mapDispatchToProps = (dispatch, props) => {
+const mapStateToProps = (state) => ({
+  tableList: getTableList(state)
+});
 
-// }
+const mapDispatchToProps = (dispatch) => ({
+  addTable(state) {
+    dispatch({
+      type: 'ADD_TABLE',
+      id: new Date().getTime(),
+      table: {
+        width: state.width,
+        height: state.height,
+        data: {}
+      }
+    });
+  }
+})
 
-export default connect()(TablePanel);
+export default connect(mapStateToProps, mapDispatchToProps)(TablePanel);

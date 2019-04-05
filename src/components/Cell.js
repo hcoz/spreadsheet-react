@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import store from '../redux/store';
 
 class Cell extends Component {
   constructor(props) {

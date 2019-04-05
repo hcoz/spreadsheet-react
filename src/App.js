@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter, Route } from 'react-router-dom';
 import configureStore from './redux/configureStore';
 import TablePanel from './components/TablePanel';
+import Table from './components/Table';
 import './App.css';
 
 const store = configureStore();
@@ -12,6 +13,7 @@ class App extends Component {
       <Provider store={store}>
         <BrowserRouter>
           <Route path="/" component={TablePanel} />
+          <Route path="/table/:id" component={Table} />
         </BrowserRouter>
       </Provider>
     );

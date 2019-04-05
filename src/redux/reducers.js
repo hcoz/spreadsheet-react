@@ -1,9 +1,9 @@
-export const reducer = (state = [], action) => {
+export const reducer = (state = {}, action) => {
   switch (action.type) {
     case 'ADD_TABLE':
-      let newState = Object.assign([], state);
-      newState.push(action.table);
-      return newState;
+      return Object.assign({}, state, {
+        [action.id]: action.table
+      });
     case 'UPDATE_TABLE':
       let newData = state.data;
       const { key, value } = action;
@@ -12,4 +12,8 @@ export const reducer = (state = [], action) => {
     default:
       return state;
   }
+};
+
+export const getTableList = (state = {}) => {
+  return Object.keys(state);
 };
