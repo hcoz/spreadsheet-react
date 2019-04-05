@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Row from './Row';
+import { getTableData } from '../redux/reducers';
 
 class Table extends Component {
   render() {
-    const {x, y} = this.props;
+    const { width, height } = this.props.table;
     const rows = [];
 
-    for (let i = 0; i < y; i++) {
+    for (let i = 0; i < width; i++) {
       rows.push(
-        <Row key={i} x={x} y={i} />
+        <Row key={i} x={height} y={i} />
       );
     }
 
@@ -18,8 +20,14 @@ class Table extends Component {
 }
 
 Table.propTypes = {
-  x: PropTypes.number.isRequired,
-  y: PropTypes.number.isRequired
+  table: PropTypes.shape({
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired
+  })
 };
 
-export default Table;
+const mapStateToProps = (state, ownProps) => ({
+  table: getTableData(state, ownProps.match.params.id)
+});
+
+export default connect(mapStateToProps)(Table);

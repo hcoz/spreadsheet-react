@@ -17,3 +17,10 @@ export const reducer = (state = {}, action) => {
 export const getTableList = (state = {}) => {
   return Object.keys(state);
 };
+
+export const getTableData = (state = {}, tableId) => {
+  return Object.assign({}, state[tableId], {
+    width: parseInt(state[tableId].width),
+    height: parseInt(state[tableId].height)
+  });
+};

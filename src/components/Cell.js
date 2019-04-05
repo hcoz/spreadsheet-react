@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getTableData } from '../redux/reducers';
 
 class Cell extends Component {
   constructor(props) {
     super(props);
-    console.log(`key: ${this.props.id}, val: ${JSON.stringify(store.getState())}`);
     this.state = {
       editing: false,
-      value: store.getState().data[this.props.id] || ''
+      value: this.props.table.data[this.props.id] || ''
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -43,19 +44,13 @@ class Cell extends Component {
   handleData(e) {
     const value = this.calculateValue(this.state.value);
     if (value) {
-      store.dispatch({
-        type: 'UPDATE_TABLE',
-        key: this.props.id,
-        value: value
-      });
+      this.props.updateTable(value);
       // update local state
       this.setState({
         editing: false,
         value: value
       });
       e.target.classList.remove('selected');
-      // update local storage
-      localStorage.setItem('matrix-data', JSON.stringify(store.getState()));
     }
   }
 
@@ -95,4 +90,19 @@ Cell.propTypes = {
   y: PropTypes.number.isRequired
 };
 
-export default Cell;
+const mapStateToProps = (state, ownProps) => ({
+  table: getTableData(state, ownProps.match.params.id)
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  updateTable(value) {
+    dispatch({
+      type: 'UPDATE_TABLE',
+      tableId: this.props.match.id,
+      key: this.props.id,
+      value: value
+    });
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cell);
