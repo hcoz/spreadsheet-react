@@ -5,10 +5,12 @@ export const reducer = (state = {}, action) => {
         [action.id]: action.table
       });
     case 'UPDATE_TABLE':
-      let newData = state.data;
-      const { key, value } = action;
-      newData[key] = value;
-      return Object.assign({}, state, { data: newData });
+      const { tableId, key, value } = action;
+      let newState = Object.assign({}, state);
+      if (newState[tableId]) {
+        newState[tableId].data[key] = value;
+      }
+      return newState;
     default:
       return state;
   }

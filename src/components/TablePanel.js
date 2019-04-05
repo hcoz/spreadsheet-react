@@ -73,4 +73,7 @@ const mapDispatchToProps = (dispatch) => ({
   }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(TablePanel);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TablePanel);
