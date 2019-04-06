@@ -1,4 +1,5 @@
 export const reducer = (state = {}, action) => {
+  let newState;
   switch (action.type) {
     case 'ADD_TABLE':
       return Object.assign({}, state, {
@@ -6,16 +7,21 @@ export const reducer = (state = {}, action) => {
       });
     case 'UPDATE_TABLE':
       const { tableId, key, value } = action;
-      let newState = Object.assign({}, state);
+      newState = Object.assign({}, state);
       if (newState[tableId]) {
         newState[tableId].data[key] = value;
       }
+      return newState;
+    case 'REMOVE_TABLE':
+      newState = Object.assign({}, state);
+      delete newState[action.tableId];
       return newState;
     default:
       return state;
   }
 };
 
+// selectors are defined below
 export const getTableList = (state = {}) => {
   return Object.keys(state);
 };

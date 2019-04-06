@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { getTableList } from '../redux/reducers';
+import { addTable, removeTable } from '../redux/actions';
 
 class TablePanel extends Component {
   constructor(props) {
@@ -11,15 +12,22 @@ class TablePanel extends Component {
       height: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleRemoveTable = this.handleRemoveTable.bind(this);
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.addTable(this.state);
+    this.props.addNewTable(this.state);
     this.setState({
       width: '',
       height: ''
     });
+  }
+
+  handleRemoveTable(e) {
+    this.props.removeTable(e.target.dataset.tableId);
+    // redirect to main page after deeletion
+    this.props.history.push('/');
   }
 
   render() {
@@ -40,15 +48,16 @@ class TablePanel extends Component {
           />
           <button className="btn" type="submit">Create table</button>
         </form>
-      
+
         <ul id="table-list">
-         {this.props.tableList.map(
-           (table) => (
-              <li key={table}>
-                <Link key={table} to={`/table/${table}`}>{table}</Link>
+          {this.props.tableList.map(
+            (tableId) => (
+              <li key={tableId}>
+                <Link key={tableId} to={`/table/${tableId}`}>{tableId}</Link>
+                <span className="remove-btn" onClick={this.handleRemoveTable} data-table-id={tableId}>X</span>
               </li>
             )
-         )}
+          )}
         </ul>
       </div>
     )
@@ -59,19 +68,10 @@ const mapStateToProps = (state) => ({
   tableList: getTableList(state)
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  addTable(state) {
-    dispatch({
-      type: 'ADD_TABLE',
-      id: new Date().getTime(),
-      table: {
-        width: state.width,
-        height: state.height,
-        data: {}
-      }
-    });
-  }
-})
+const mapDispatchToProps = {
+  addNewTable: addTable,
+  removeTable: removeTable
+};
 
 export default connect(
   mapStateToProps,

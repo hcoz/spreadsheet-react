@@ -45,3 +45,7 @@
 .btn {
   background-color: lightgreen;
 }
+
+.remove-btn {
+  margin-left: 10px;
+}

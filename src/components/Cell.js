@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { getTableData } from '../redux/reducers';
+import { updateTable } from '../redux/actions';
 
 class Cell extends Component {
   constructor(props) {
@@ -45,7 +46,7 @@ class Cell extends Component {
   handleData(e) {
     const value = this.calculateValue(this.input.current.value);
     if (value) {
-      this.props.updateTable(this.props.match.params.id, this.props.id, value);
+      this.props.updateTableData(this.props.match.params.id, this.props.id, value);
       // update local state
       this.setState({
         editing: false
@@ -93,20 +94,9 @@ const mapStateToProps = (state, ownProps) => ({
   table: getTableData(state, ownProps.match.params.id)
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  updateTable(tableId, key, value) {
-    dispatch({
-      type: 'UPDATE_TABLE',
-      tableId: tableId,
-      key: key,
-      value: value
-    });
-  }
-});
-
 export default withRouter(
   connect(
     mapStateToProps,
-    mapDispatchToProps
+    { updateTableData: updateTable } // shorthand mapDispatchToProps notation
   )(Cell)
 );
